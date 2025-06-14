@@ -87,4 +87,4 @@ Edit the Config class in src/main.py to set the CURRENT_FILE, then run:
     purchased_at    : 2024-05-28 15:30:00
     total_amount    : 75.42
 
-Built with 💻 by Balaji and 🤖 Claude AI
+Built with 💻 by Balaji and powered by 🤖 Claude AI

@@ -1,31 +1,29 @@
-# %%
+
 import os
 import re
 import uuid
 from datetime import datetime
 from pathlib import Path
 import pandas as pd
-
-# PDF and Image processing
 import PyPDF2
 from pdf2image import convert_from_path
 import pytesseract
 from PIL import Image
 from dateutil import parser as date_parser
 
-# %%
+
 class Config:
     # Update this path to your receipt files directory
     RECEIPTS_DIR = "./receipts"  # Change filename here for testing
     CURRENT_FILE = "oldnavy_20240528_006.pdf"  # Change this to test different files
     
 
-# %%
+
 print("=== Receipt Information Extraction System ===")
 print(f"Current file to process: {Config.CURRENT_FILE}")
 print(f"Looking in directory: {Config.RECEIPTS_DIR}")
 
-# %%
+
 def validate_pdf(file_path):
     """
     Validate if the file is a valid PDF
@@ -52,7 +50,7 @@ def validate_pdf(file_path):
     except Exception as e:
         return False, f"PDF validation error: {str(e)}"
 
-# %%
+
 def extract_text_from_pdf(file_path):
     """
     Extract text from PDF using OCR (pdf2image + tesseract)
@@ -78,7 +76,7 @@ def extract_text_from_pdf(file_path):
         print(f"OCR extraction error: {str(e)}")
         return ""
 
-# %%
+
 def extract_merchant_name(text):
     """Extract merchant name from receipt text"""
     lines = text.split('\n')
@@ -99,7 +97,7 @@ def extract_merchant_name(text):
     
     return "Unknown Merchant"
 
-# %%
+
 def extract_date(text):
     """Extract purchase date from receipt text"""
     # Common date patterns
@@ -122,7 +120,7 @@ def extract_date(text):
     
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# %%
+
 def extract_total_amount(text):
     """Extract total amount from receipt text"""
     # Look for total patterns
@@ -151,7 +149,7 @@ def extract_total_amount(text):
     # Return the largest reasonable amount (likely the total)
     return max(amounts) if amounts else 0.0
 
-# %%
+
 def process_receipt(file_path):
     """
     Main function to process a single receipt
@@ -189,7 +187,7 @@ def process_receipt(file_path):
     
     return receipt_data, extracted_text
 
-# %%
+
 def test_current_file():
     """Test the currently configured file"""
     file_path = os.path.join(Config.RECEIPTS_DIR, Config.CURRENT_FILE)
@@ -228,7 +226,7 @@ def test_current_file():
     else:
         print("❌ Failed to process receipt")
         return None
-# %%
+
 if __name__ == "__main__":
     print("Starting receipt processing test...")
     result = test_current_file()
